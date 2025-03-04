@@ -4,12 +4,12 @@
   "description": "",
   "keywords": [],
   "main": "src/index.tsx",
-  "dependencies": {
-    "react": "^19.0.0",
-    "react-dom": "^19.0.0",
-    "react-scripts": "^5.0.0",
-    "lucide-react": "0.477.0"
-  },
+"dependencies": {
+  "react": "^19.0.0",
+  "react-dom": "^19.0.0",
+  "react-icons": "^4.10.1",
+  "vite": "^5.0.0"
+}
   "devDependencies": {
     "@types/react": "19.0.0",
     "@types/react-dom": "19.0.0",
