@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Calendar, MessageSquare, File, Home, Settings, Folder, Briefcase, ClipboardCheck } from "lucide-react";
+import { Calendar, MessageSquare, File, Home, Settings, Download, Folder } from "lucide-react";
 
 function ChatbotInput({ onSendQuestion }) {
   const [question, setQuestion] = useState("");
@@ -23,100 +23,74 @@ function ChatbotInput({ onSendQuestion }) {
   );
 }
 
-function ChatbotResponse({ response, onShowOptions }) {
+function ChatbotWidget({ isOpen, onToggle }) {
   return (
-    <div className="mt-4 p-2 border rounded-lg bg-gray-100">
-      <p>{response}</p>
-      <button className="mt-2 w-full bg-blue-500 text-white py-2 rounded" onClick={onShowOptions}>
-        Continua
-      </button>
-    </div>
-  );
-}
-
-function ChatbotActions({ onSelectOption }) {
-  return (
-    <div className="mt-4 flex flex-col gap-2">
-      <button className="w-full bg-gray-200 py-2 rounded flex gap-2 items-center" onClick={() => onSelectOption("consulenza")}> 
-        <Calendar size={16} /> Prenota una consulenza gratuita
-      </button>
-      <button className="w-full bg-gray-200 py-2 rounded flex gap-2 items-center" onClick={() => onSelectOption("chat_avvocato")}> 
-        <MessageSquare size={16} /> Chat con un avvocato (Premium)
-      </button>
-      <button className="w-full bg-gray-200 py-2 rounded flex gap-2 items-center" onClick={() => onSelectOption("revisione_documento")}> 
-        <File size={16} /> Invia un documento per revisione
-      </button>
+    <div className="fixed bottom-5 right-5 z-50">
+      {isOpen ? (
+        <div className="w-80 h-96 bg-white shadow-lg rounded-lg p-4">
+          <h2 className="text-lg font-bold">💬 Chatbot Legale</h2>
+          <ChatbotInput onSendQuestion={() => {}} />
+          <button onClick={onToggle} className="w-full mt-4 bg-red-500 text-white py-2 rounded">
+            Chiudi
+          </button>
+        </div>
+      ) : (
+        <button onClick={onToggle} className="w-16 h-16 bg-blue-500 text-white rounded-full shadow-lg flex items-center justify-center">
+          💬
+        </button>
+      )}
     </div>
   );
 }
 
 function Sidebar({ onSelectPage }) {
   return (
-    <div className="w-1/5 min-h-screen bg-gray-200 p-4 flex flex-col gap-4">
-      <button className="flex gap-2 items-center" onClick={() => onSelectPage("dashboard")}> 
-        <Home size={16} /> Dashboard
-      </button>
-      <button className="flex gap-2 items-center" onClick={() => onSelectPage("compliance_gdpr")}> 
-        <Folder size={16} /> Compliance GDPR
-      </button>
-      <button className="flex gap-2 items-center" onClick={() => onSelectPage("diritto_lavoro")}> 
-        <Briefcase size={16} /> Diritto del Lavoro
-      </button>
-      <button className="flex gap-2 items-center" onClick={() => onSelectPage("diritto_societario")}> 
-        <ClipboardCheck size={16} /> Diritto Societario
-      </button>
-      <button className="flex gap-2 items-center" onClick={() => onSelectPage("chatbot")}> 
-        <MessageSquare size={16} /> Chatbot
-      </button>
-      <button className="flex gap-2 items-center" onClick={() => onSelectPage("settings")}> 
-        <Settings size={16} /> Impostazioni
-      </button>
-    </div>
+    <aside className="w-64 min-h-screen bg-white p-4 shadow-lg">
+      <h2 className="text-xl font-bold mb-4">📁 Aree Tematiche</h2>
+      <nav className="flex flex-col gap-2">
+        <button className="flex gap-2 items-center p-2 hover:bg-gray-200 rounded" onClick={() => onSelectPage("dashboard")}>
+          <Home size={18} /> Dashboard
+        </button>
+        <button className="flex gap-2 items-center p-2 hover:bg-gray-200 rounded" onClick={() => onSelectPage("compliance")}> 
+          <Folder size={18} /> Compliance GDPR
+        </button>
+        <button className="flex gap-2 items-center p-2 hover:bg-gray-200 rounded" onClick={() => onSelectPage("diritto_lavoro")}> 
+          <Calendar size={18} /> Diritto del Lavoro
+        </button>
+        <button className="flex gap-2 items-center p-2 hover:bg-gray-200 rounded" onClick={() => onSelectPage("chatbot")}>
+          <MessageSquare size={18} /> Chatbot
+        </button>
+        <button className="flex gap-2 items-center p-2 hover:bg-gray-200 rounded" onClick={() => onSelectPage("settings")}>
+          <Settings size={18} /> Impostazioni
+        </button>
+      </nav>
+    </aside>
   );
 }
 
 export default function LegalSupportApp() {
   const [currentPage, setCurrentPage] = useState("dashboard");
-  const [response, setResponse] = useState(null);
-  const [showOptions, setShowOptions] = useState(false);
-  const [selectedOption, setSelectedOption] = useState(null);
-
-  const handleSendQuestion = (question) => {
-    setResponse(
-      `L'AI ha analizzato la tua domanda: "${question}". Ecco alcune informazioni generali. Tuttavia, ti consigliamo di approfondire con un esperto.`
-    );
-  };
-
-  const handleSelectOption = (option) => {
-    setSelectedOption(option);
-  };
+  const [chatOpen, setChatOpen] = useState(false);
 
   return (
-    <div className="flex min-h-screen">
+    <div className="flex min-h-screen bg-blue-100">
       <Sidebar onSelectPage={setCurrentPage} />
-      <div className="w-4/5 p-6">
-        {currentPage === "dashboard" && <h2 className="text-2xl font-bold">📊 Dashboard</h2>}
-        {currentPage === "compliance_gdpr" && <h2 className="text-2xl font-bold">📂 Compliance GDPR</h2>}
-        {currentPage === "diritto_lavoro" && <h2 className="text-2xl font-bold">💼 Diritto del Lavoro</h2>}
-        {currentPage === "diritto_societario" && <h2 className="text-2xl font-bold">🏛️ Diritto Societario</h2>}
-        {currentPage === "settings" && <h2 className="text-2xl font-bold">⚙️ Impostazioni</h2>}
-        {currentPage === "chatbot" && (
-          <div className="relative w-full max-w-xl p-4 shadow-md border rounded-lg">
-            <h2 className="text-xl font-bold mb-2">💬 Assistente Legale AI</h2>
-            <p className="text-sm text-gray-600 mb-4">
-              Ciao! Sono il tuo assistente legale AI. Come posso aiutarti oggi?
-            </p>
-            {!response && <ChatbotInput onSendQuestion={handleSendQuestion} />}
-            {response && !showOptions && (
-              <ChatbotResponse response={response} onShowOptions={() => setShowOptions(true)} />
-            )}
-            {showOptions && !selectedOption && <ChatbotActions onSelectOption={handleSelectOption} />}
-            {selectedOption === "consulenza" && <p className="mt-4 text-green-600">📅 Prenota una consulenza con un esperto.</p>}
-            {selectedOption === "chat_avvocato" && <p className="mt-4 text-blue-600">💬 Avvia una chat con un avvocato.</p>}
-            {selectedOption === "revisione_documento" && <p className="mt-4 text-orange-600">📄 Carica il documento per la revisione.</p>}
+      <main className="flex-1 p-6">
+        {currentPage === "dashboard" && (
+          <div>
+            <h2 className="text-2xl font-bold">📊 Dashboard</h2>
+            <div className="mt-4 bg-white p-4 shadow-lg rounded-lg">
+              <h3 className="font-semibold">📄 Documento di Consulenza</h3>
+              <p>"Policy GDPR - Versione aggiornata 2025"</p>
+              <button className="mt-2 bg-green-500 text-white py-2 px-4 rounded flex gap-2 items-center">
+                <Download size={16} /> Scarica Documento
+              </button>
+            </div>
           </div>
         )}
-      </div>
+        {currentPage === "chatbot" && <ChatbotWidget isOpen={chatOpen} onToggle={() => setChatOpen(!chatOpen)} />}
+      </main>
+      <ChatbotWidget isOpen={chatOpen} onToggle={() => setChatOpen(!chatOpen)} />
     </div>
   );
 }
