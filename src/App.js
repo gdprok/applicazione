@@ -1,62 +1,41 @@
 import { useState } from "react";
-import { MessageSquare, FileText, Briefcase, Shield, Users, Settings, Plus, CheckCircle, Calendar } from "lucide-react";
+import { MessageSquare, FileText, Briefcase, Shield, Users, Settings, Download, FolderOpen } from "lucide-react";
 
 function Sidebar({ onSelectPage }) {
   return (
     <div className="w-1/5 min-h-screen bg-blue-200 p-4 flex flex-col gap-4 shadow-lg">
-      <h2 className="text-xl font-bold text-gray-700 mb-4">📌 Aree Tematiche</h2>
+      <button className="flex gap-2 items-center p-2 rounded hover:bg-blue-300" onClick={() => onSelectPage("dashboard")}>
+        📊 Dashboard
+      </button>
       <button className="flex gap-2 items-center p-2 rounded hover:bg-blue-300" onClick={() => onSelectPage("gdpr")}>
-        <Shield size={16} /> Compliance GDPR
+        🛡️ Compliance GDPR
       </button>
       <button className="flex gap-2 items-center p-2 rounded hover:bg-blue-300" onClick={() => onSelectPage("lavoro")}>
-        <Briefcase size={16} /> Diritto del Lavoro
+        ⚖️ Diritto del Lavoro
       </button>
       <button className="flex gap-2 items-center p-2 rounded hover:bg-blue-300" onClick={() => onSelectPage("societario")}>
-        <Users size={16} /> Diritto Societario
+        🏢 Diritto Societario
       </button>
       <button className="flex gap-2 items-center p-2 rounded hover:bg-blue-300" onClick={() => onSelectPage("strategia")}>
-        <FileText size={16} /> Pianificazione Strategica
+        📈 Pianificazione Strategica
       </button>
       <button className="flex gap-2 items-center p-2 rounded hover:bg-blue-300 mt-auto" onClick={() => onSelectPage("settings")}>
-        <Settings size={16} /> Impostazioni
+        ⚙️ Impostazioni
       </button>
     </div>
   );
 }
 
-function TaskBoard() {
+function Workspace() {
   return (
-    <div className="flex gap-4 w-full">
-      {/* Lista 1: Da fare */}
-      <div className="w-1/3 bg-white p-4 rounded-lg shadow-md">
-        <h3 className="font-bold text-gray-700 mb-2">📌 Da fare</h3>
-        <div className="bg-gray-100 p-2 rounded-lg mb-2">📝 Firmare nomine DPO</div>
-        <div className="bg-gray-100 p-2 rounded-lg mb-2">📞 Chiamare studio legale</div>
-        <div className="bg-gray-100 p-2 rounded-lg mb-2">📄 Rivedere policy GDPR</div>
-        <button className="flex gap-2 items-center text-blue-500">
-          <Plus size={16} /> Aggiungi una scheda
-        </button>
+    <div className="w-3/5 bg-white p-6 rounded-lg shadow-md flex flex-col items-center">
+      <h3 className="text-lg font-bold text-gray-700 mb-4">📄 Documento di Consulenza</h3>
+      <div className="w-full bg-gray-100 p-4 rounded-lg mb-4">
+        <p className="text-gray-700">"Policy GDPR - Versione aggiornata 2025".</p>
       </div>
-
-      {/* Lista 2: In esecuzione */}
-      <div className="w-1/3 bg-white p-4 rounded-lg shadow-md">
-        <h3 className="font-bold text-gray-700 mb-2">⏳ In esecuzione</h3>
-        <div className="bg-yellow-100 p-2 rounded-lg mb-2">📑 Revisione contratti in corso</div>
-        <button className="flex gap-2 items-center text-blue-500">
-          <Plus size={16} /> Aggiungi una scheda
-        </button>
-      </div>
-
-      {/* Lista 3: Completato */}
-      <div className="w-1/3 bg-white p-4 rounded-lg shadow-md">
-        <h3 className="font-bold text-gray-700 mb-2">✅ Completato</h3>
-        <div className="bg-green-100 p-2 rounded-lg mb-2 flex gap-2 items-center">
-          <CheckCircle size={16} className="text-green-600" /> 🔍 Adeguamento privacy completato
-        </div>
-        <button className="flex gap-2 items-center text-blue-500">
-          <Plus size={16} /> Aggiungi una scheda
-        </button>
-      </div>
+      <button className="flex gap-2 items-center bg-blue-500 text-white px-4 py-2 rounded">
+        <Download size={16} /> Scarica Documento
+      </button>
     </div>
   );
 }
@@ -78,7 +57,7 @@ function Chatbot() {
   };
 
   return (
-    <div className="fixed bottom-4 right-4 w-96 bg-white border p-4 rounded-lg shadow-lg">
+    <div className="fixed bottom-4 right-4 w-80 bg-white border p-4 rounded-lg shadow-lg">
       <h3 className="text-lg font-bold mb-2">💬 Chatbot Legale</h3>
       <div className="h-40 overflow-y-auto bg-gray-100 p-2 rounded mb-2">
         {conversation.map((msg, index) => (
@@ -107,24 +86,27 @@ export default function LegalSupportApp() {
     <div className="flex min-h-screen bg-blue-100">
       <Sidebar onSelectPage={setCurrentPage} />
       <div className="w-4/5 p-6">
-        {currentPage === "dashboard" && (
-          <>
-            <h2 className="text-2xl font-bold mb-4">📊 Dashboard</h2>
-            <TaskBoard />
-          </>
-        )}
-        {currentPage !== "dashboard" && (
-          <>
-            <h2 className="text-2xl font-bold">
-              {currentPage === "gdpr" && "📜 Compliance GDPR"}
-              {currentPage === "lavoro" && "⚖️ Diritto del Lavoro"}
-              {currentPage === "societario" && "🏢 Diritto Societario"}
-              {currentPage === "strategia" && "📈 Pianificazione Strategica"}
-              {currentPage === "settings" && "⚙️ Impostazioni"}
-            </h2>
-            <p className="mt-4 text-gray-700">Qui puoi consultare informazioni e accedere ai servizi dedicati.</p>
-          </>
-        )}
+        <div className="flex flex-col items-center">
+          <h2 className="text-2xl font-bold">📌 Aree Tematiche</h2>
+          <div className="flex gap-4 mt-4">
+            <button className="flex gap-2 items-center p-2 bg-white rounded shadow-md">
+              🛡️ Compliance GDPR
+            </button>
+            <button className="flex gap-2 items-center p-2 bg-white rounded shadow-md">
+              ⚖️ Diritto del Lavoro
+            </button>
+            <button className="flex gap-2 items-center p-2 bg-white rounded shadow-md">
+              🏢 Diritto Societario
+            </button>
+            <button className="flex gap-2 items-center p-2 bg-white rounded shadow-md">
+              📈 Pianificazione Strategica
+            </button>
+          </div>
+        </div>
+
+        <div className="flex justify-center mt-6">
+          <Workspace />
+        </div>
       </div>
       <Chatbot />
     </div>
