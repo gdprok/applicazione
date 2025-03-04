@@ -1,30 +1,25 @@
 {
-  "name": "react",
+  "name": "applicazione",
   "version": "1.0.0",
-  "description": "",
-  "keywords": [],
-  "main": "src/index.tsx",
-"dependencies": {
-  "react": "^19.0.0",
-  "react-dom": "^19.0.0",
-  "react-icons": "^4.10.1",
-  "vite": "^5.0.0"
-}
-  "devDependencies": {
-    "@types/react": "19.0.0",
-    "@types/react-dom": "19.0.0",
-    "loader-utils": "3.2.1",
-    "typescript": "4.9.5"
+  "description": "Applicazione Web per consulenza legale",
+  "main": "src/main.jsx",
+  "dependencies": {
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0",
+    "react-icons": "^4.10.1",
+    "react-router-dom": "^6.18.0",
+    "tailwindcss": "^3.4.0",
+    "vite": "^5.0.0"
   },
-"scripts": {
-  "dev": "vite",
-  "build": "vite build",
-  "preview": "vite preview"
-}
-  "browserslist": [
-    ">0.2%",
-    "not dead",
-    "not ie <= 11",
-    "not op_mini all"
-  ]
+  "devDependencies": {
+    "@vitejs/plugin-react": "^5.0.0"
+  },
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview"
+  },
+  "keywords": ["legal", "consulting", "chatbot", "ai"],
+  "author": "Legal Support Team",
+  "license": "MIT"
 }
